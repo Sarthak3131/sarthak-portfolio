@@ -18,15 +18,18 @@ A modern, responsive developer portfolio built with React, Vite, and Tailwind CS
   - Experience/Training history
   - Certificates grid
   - Achievements with counters
+  - GitHub Stats with contribution calendar
+  - LeetCode Stats with platform metrics
   - Contact form with validation
   - Footer with back-to-top functionality
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: React 18, Vite
+- **Frontend**: React 19, Vite
 - **Styling**: Tailwind CSS, PostCSS
 - **Animations**: Framer Motion
-- **Icons**: Lucide React
+- **Data Visualization**: Recharts
+- **GitHub Integration**: React GitHub Calendar
 - **Build Tool**: Vite
 - **Linting**: ESLint
 
@@ -36,12 +39,12 @@ A modern, responsive developer portfolio built with React, Vite, and Tailwind CS
 client/
 ├── public/
 ├── src/
-│   ├── assets/
+│   ├── assets/               # Images and certificates
 │   ├── components/
 │   │   ├── Hero.jsx
 │   │   ├── Navbar.jsx
-│   │   ├── ProjectCard.jsx
-│   │   └── Footer.jsx
+│   │   ├── Footer.jsx
+│   │   └── GlobalBackground.jsx
 │   ├── data/
 │   │   ├── projects.js
 │   │   ├── certificates.js
@@ -56,11 +59,13 @@ client/
 │   │   ├── Experience.jsx
 │   │   ├── Certificates.jsx
 │   │   ├── Achievements.jsx
-│   │   └── Contact.jsx
+│   │   ├── Contact.jsx
+│   │   ├── GithubStats.jsx
+│   │   └── LeetcodeStats.jsx
 │   ├── App.jsx
 │   ├── main.jsx
 │   ├── index.css
-│   └── App.css
+│   └── portfolio.css
 ├── package.json
 ├── vite.config.js
 ├── tailwind.config.js
