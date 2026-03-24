@@ -1,0 +1,200 @@
+/* ═══════════════════════════════════════════════════════════════
+   portfolio.css
+   Import this ONCE in main.jsx:  import "./portfolio.css"
+   All keyframes are prefixed with "g" (global) to avoid clashes.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #020617;
+  color: #F1F5F9;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Thin red scrollbar */
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: #0B1220; }
+::-webkit-scrollbar-thumb  { background: #3B82F6; border-radius: 2px; }
+
+/* ── Keyframes ──────────────────────────────────────────────── */
+
+/* Shimmer — gradient text animation (name, headings) */
+@keyframes gShimmer {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 200% center; }
+}
+
+/* Blinking cursor */
+@keyframes gBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Breathing red glow on dots / borders */
+@keyframes gGlow {
+  0%, 100% { box-shadow: 0 0 6px 2px rgba(59,130,246,0.45); }
+  50%       { box-shadow: 0 0 16px 5px rgba(59,130,246,0.85); }
+}
+
+/* Pulsing border glow on cards */
+@keyframes gBorderGlow {
+  0%, 100% { border-color: rgba(59,130,246,0.25); }
+  50%       { border-color: rgba(59,130,246,0.75); }
+}
+
+/* Gentle vertical float (cards, icons) */
+@keyframes gFloat {
+  0%, 100% { transform: translateY(0);    }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Fade up on enter */
+@keyframes gFadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Slide in from left */
+@keyframes gFadeLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+
+/* Slide in from right */
+@keyframes gFadeRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+/* Pop in (modals, badges) */
+@keyframes gPopIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+
+/* Timeline line grow */
+@keyframes gLineGrow {
+  from { height: 0;    }
+  to   { height: 100%; }
+}
+
+/* ── Shared utility classes ─────────────────────────────────── */
+
+/* Section base — transparent so global canvas shows through */
+.p-section {
+  position: relative;
+  background: transparent;
+  padding: 6.5rem 2rem;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Section header tag pill */
+.sec-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #60A5FA;
+  background: rgba(59,130,246,0.08);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 100px;
+  padding: 0.35rem 1rem;
+  margin-bottom: 0.75rem;
+}
+.sec-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3B82F6;
+  animation: gGlow 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* Shimmer gradient text (headings highlight) */
+.sec-hl {
+  background: linear-gradient(135deg, #93C5FD, #3B82F6, #60A5FA, #93C5FD);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gShimmer 4s linear infinite;
+}
+
+/* Glass card */
+.g-card {
+  background: rgba(15,23,42,0.65);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(59,130,246,0.25);
+  border-radius: 22px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.g-card:hover {
+  border-color: rgba(59,130,246,0.45);
+  box-shadow: 0 0 40px rgba(59,130,246,0.08);
+}
+
+/* Red pill badge (period / tag) */
+.g-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.75rem;
+  border-radius: 100px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.25);
+  color: #3B82F6;
+}
+
+/* Timeline vertical line */
+.g-tl-line {
+  position: absolute;
+  left: 31px;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #3B82F6, rgba(59,130,246,0.1));
+}
+
+/* Timeline dot */
+.g-tl-dot {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 4px solid #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  animation: gGlow 2.5s ease-in-out infinite;
+}
+
+/* Ambient blob helper */
+.g-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(80px);
+}
+@keyframes orbit {
+  0%   { transform: rotate(0deg)   translateX(110px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(110px) rotate(-360deg); }
+}
+@keyframes orbit2 {
+  0%   { transform: rotate(120deg)  translateX(90px) rotate(-120deg); }
+  100% { transform: rotate(480deg)  translateX(90px) rotate(-480deg); }
+}
+@keyframes orbit3 {
+  0%   { transform: rotate(240deg) translateX(75px) rotate(-240deg); }
+  100% { transform: rotate(600deg) translateX(75px) rotate(-600deg); }
+}
