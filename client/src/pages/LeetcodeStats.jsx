@@ -8,23 +8,33 @@ export default function LeetcodeStats() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetch("https://leetcode-api-faisalshohag.vercel.app/sarthaksrivastava189")
-      .then((res) => res.json())
+    const controller = new AbortController();
+
+    fetch("https://leetcode-api-faisalshohag.vercel.app/sarthaksrivastava189", { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`LeetCode API request failed: ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => {
-        if (data.errors) {
+        if (data?.errors || typeof data !== "object" || data === null) {
           setError(true);
         } else {
           let acc = 0;
-          if (data.totalSubmissions && data.totalAccepted) {
-            acc = (data.totalAccepted / data.totalSubmissions) * 100;
+          const totalSubmissions = Number(data.totalSubmissions) || 0;
+          const totalAccepted = Number(data.totalAccepted) || 0;
+
+          if (totalSubmissions > 0 && totalAccepted >= 0) {
+            acc = (totalAccepted / totalSubmissions) * 100;
           }
           if (isNaN(acc) || !isFinite(acc)) acc = 0;
 
           setStats({
-            totalSolved: data.totalSolved || 0,
-            easySolved: data.easySolved || 0,
-            mediumSolved: data.mediumSolved || 0,
-            hardSolved: data.hardSolved || 0,
+            totalSolved: Number(data.totalSolved) || 0,
+            easySolved: Number(data.easySolved) || 0,
+            mediumSolved: Number(data.mediumSolved) || 0,
+            hardSolved: Number(data.hardSolved) || 0,
             acceptanceRate: acc.toFixed(1),
             ranking: data.ranking || "N/A"
           });
@@ -32,25 +42,42 @@ export default function LeetcodeStats() {
         setLoading(false);
       })
       .catch((err) => {
+        if (err.name === "AbortError") return;
         console.error("Failed to fetch LeetCode stats:", err);
         setError(true);
         setLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
-  const statCards = useMemo(() => stats ? [
-    { lbl: "Total Solved", val: stats.totalSolved },
-    { lbl: "Easy", val: stats.easySolved },
-    { lbl: "Medium", val: stats.mediumSolved },
-    { lbl: "Hard", val: stats.hardSolved },
-    { lbl: "Acceptance Rate", val: `${stats.acceptanceRate}%` },
-  ] : [], [stats]);
+  const statCards = useMemo(() => {
+    if (!stats) return [];
+
+    const cards = [
+      { lbl: "Total Solved", val: stats.totalSolved, hidden: !Number.isFinite(stats.totalSolved) },
+      { lbl: "Easy", val: stats.easySolved, hidden: !Number.isFinite(stats.easySolved) },
+      { lbl: "Medium", val: stats.mediumSolved, hidden: !Number.isFinite(stats.mediumSolved) },
+      { lbl: "Hard", val: stats.hardSolved, hidden: !Number.isFinite(stats.hardSolved) },
+    ];
+
+    const acceptanceRate = Number(stats.acceptanceRate);
+    if (Number.isFinite(acceptanceRate) && acceptanceRate > 0) {
+      cards.push({ lbl: "Acceptance Rate", val: `${acceptanceRate.toFixed(1)}%`, hidden: false });
+    }
+
+    return cards.filter((c) => !c.hidden);
+  }, [stats]);
 
   const pieData = useMemo(() => stats ? [
     { name: "Easy", value: parseInt(stats.easySolved), color: "#00b8a3" },
     { name: "Medium", value: parseInt(stats.mediumSolved), color: "#ffc01e" },
     { name: "Hard", value: parseInt(stats.hardSolved), color: "#ef4743" },
   ] : [], [stats]);
+
+  const statsGridMinCardWidth = statCards.length === 4 ? 220 : 180;
 
   const container = {
     hidden: {},
@@ -86,7 +113,7 @@ export default function LeetcodeStats() {
         ) : (
           <motion.div 
             variants={container} initial="hidden" whileInView="show" viewport={{ once:true, amount:0.1 }}
-            style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))", gap:"1.5rem" }}
+            style={{ display:"grid", gridTemplateColumns:`repeat(auto-fit,minmax(${statsGridMinCardWidth}px,1fr))`, gap:"1.5rem" }}
           >
             {statCards.map((s) => (
               <motion.div key={s.lbl} variants={item} whileHover={{ scale:1.05 }} className="g-card"

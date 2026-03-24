@@ -54,17 +54,17 @@ export default function GithubStats() {
         >
           {/* GitHub Stats */}
           <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true" alt="GitHub Stats" style={{ width: "100%", maxWidth: "400px" }} />
+            <img src="https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true" alt="GitHub Stats" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
           </motion.article>
 
           {/* Top Languages */}
           <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true" alt="Top Languages" style={{ width: "100%", maxWidth: "400px" }} />
+            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true" alt="Top Languages" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
           </motion.article>
 
           {/* GitHub Streak */}
           <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D" alt="GitHub Streak" style={{ width: "100%", maxWidth: "400px" }} />
+            <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D" alt="GitHub Streak" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
           </motion.article>
         </motion.div>
       </div>

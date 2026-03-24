@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -15,57 +15,78 @@ const navLinks = [
   { id:"contact",      label:"Contact",      icon:"✉️" },
 ];
 
+function scrollToSection(sectionId) {
+  const target = document.getElementById(sectionId);
+  if (!target) return;
+
+  const targetTop = target.getBoundingClientRect().top + window.scrollY;
+  const paddingTop = parseFloat(window.getComputedStyle(target).paddingTop) || 0;
+  const sectionContentTop = target.classList.contains("p-section")
+    ? targetTop + paddingTop
+    : targetTop;
+  const viewportOffset = window.innerWidth < 768 ? 14 : 18;
+  const top = sectionContentTop - viewportOffset;
+
+  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+}
+
 export default function Navbar() {
-  const [scrolled, setScrolled]         = useState(false);
   const [menuOpen, setMenuOpen]         = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isMobile, setIsMobile]         = useState(window.innerWidth < 768);
+  const activeSectionRef = useRef("home");
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onResize);
+    activeSectionRef.current = activeSection;
+  }, [activeSection]);
+
+  useEffect(() => {
+    let frameId = null;
+    const onResize = () => {
+      if (frameId) return;
+      frameId = window.requestAnimationFrame(() => {
+        setIsMobile(window.innerWidth < 768);
+        frameId = null;
+      });
+    };
+
+    window.addEventListener("resize", onResize, { passive: true });
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
   useEffect(() => {
     let ticking = false;
-    const fn = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScrolled(window.scrollY > 20);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
-  useEffect(() => {
-    let ticking = false;
-    let sectionCache = [];
+    const getSectionAnchorTop = (sectionId) => {
+      const el = document.getElementById(sectionId);
+      if (!el) return null;
+
+      const top = el.offsetTop;
+      const paddingTop = parseFloat(window.getComputedStyle(el).paddingTop) || 0;
+      return el.classList.contains("p-section") ? top + paddingTop : top;
+    };
 
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          // Rebuild cache less frequently! We calculate only once!
-          if (sectionCache.length === 0) {
-            sectionCache = navLinks.map(l => {
-              const el = document.getElementById(l.id);
-              return el ? { id: l.id, offsetTop: el.offsetTop } : null;
-            }).filter(Boolean);
-          }
-
-          const scrollY = window.scrollY + window.innerHeight * 0.35;
+          const triggerY = window.scrollY + 26;
           let current = "home";
-          for (const section of sectionCache) {
-            if (section.offsetTop <= scrollY) {
-              current = section.id;
+          for (const link of navLinks) {
+            const anchorTop = getSectionAnchorTop(link.id);
+            if (anchorTop !== null && anchorTop <= triggerY) {
+              current = link.id;
             }
           }
-          if (activeSection !== current) setActiveSection(current);
-          
+
+          // Keep last section active when user reaches page end.
+          const nearPageEnd =
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+          if (nearPageEnd) {
+            current = navLinks[navLinks.length - 1].id;
+          }
+
+          if (activeSectionRef.current !== current) setActiveSection(current);
+
           ticking = false;
         });
         ticking = true;
@@ -73,19 +94,18 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    
-    const invalidateCache = () => { sectionCache = []; };
-    window.addEventListener("resize", invalidateCache);
+
+    window.addEventListener("resize", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", invalidateCache);
+      window.removeEventListener("resize", handleScroll);
     };
-  }, [activeSection]);
+  }, []);
 
   const goto = (e, id) => {
     e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" });
+    scrollToSection(id);
     setMenuOpen(false);
   };
 

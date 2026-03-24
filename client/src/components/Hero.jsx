@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 const T = {
@@ -21,6 +21,21 @@ const ROLES = [
   "Problem Solver",
   "Backend Architect",
 ];
+
+function scrollToSection(sectionId) {
+  const target = document.getElementById(sectionId);
+  if (!target) return;
+
+  const targetTop = target.getBoundingClientRect().top + window.scrollY;
+  const paddingTop = parseFloat(window.getComputedStyle(target).paddingTop) || 0;
+  const sectionContentTop = target.classList.contains("p-section")
+    ? targetTop + paddingTop
+    : targetTop;
+  const viewportOffset = window.innerWidth < 768 ? 14 : 18;
+  const top = sectionContentTop - viewportOffset;
+
+  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+}
 
 function useTyping() {
   const [display, setDisplay] = useState("");
@@ -56,17 +71,30 @@ function useTyping() {
   return display;
 }
 
-
 function CursorGlow() {
   const ref = useRef(null);
   useEffect(() => {
     const el = ref.current;
+    let frameId = null;
+    let x = 0;
+    let y = 0;
+
     const fn = (e) => {
-      el.style.left = e.clientX + "px";
-      el.style.top  = e.clientY + "px";
+      x = e.clientX;
+      y = e.clientY;
+      if (frameId) return;
+
+      frameId = requestAnimationFrame(() => {
+        el.style.left = x + "px";
+        el.style.top  = y + "px";
+        frameId = null;
+      });
     };
-    window.addEventListener("mousemove", fn);
-    return () => window.removeEventListener("mousemove", fn);
+    window.addEventListener("mousemove", fn, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", fn);
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, []);
   return (
     <div
@@ -80,11 +108,13 @@ function CursorGlow() {
         background:    "radial-gradient(circle, rgba(59,130,246,0.07), transparent 70%)",
         transform:     "translate(-50%,-50%)",
         transition:    "left 0.1s ease, top 0.1s ease",
+        willChange:    "transform,left,top",
         zIndex:        9999,
       }}
     />
   );
 }
+
 
 const CODE_LINES = [
   { ln:"1",  parts:[{t:"kw",v:"const "},{t:"fn",v:"developer"},{t:"pl",v:" = {"}] },
@@ -165,6 +195,12 @@ function HeroBtn({ href, children, primary, download }) {
     <a
       href={href}
       download={download}
+      onClick={(e) => {
+        if (download) return;
+        if (!href || !href.startsWith("#")) return;
+        e.preventDefault();
+        scrollToSection(href.slice(1));
+      }}
       style={Object.assign({}, base, primary ? p : g)}
       onMouseEnter={() => setHov(true)}
       onMouseLeave={() => setHov(false)}
@@ -228,15 +264,17 @@ export default function Hero() {
         <div style={{ position:"absolute", top:"50%", left:"50%", transform:"translate(-50%,-50%)", width:600, height:300, borderRadius:"50%", background:"radial-gradient(circle, rgba(59,130,246,0.04), transparent 70%)", filter:"blur(60px)", pointerEvents:"none", zIndex:1 }} />
 
         {/* Floating "Open to Work" badge */}
-        <motion.div
+        <motion.button
           initial={{ opacity:0, y:-20 }}
           animate={{ opacity:1, y:0 }}
           transition={{ duration:0.7, delay:1.2 }}
-          style={{ position:"absolute", top:"6rem", right:"2rem", zIndex:10, display:"flex", alignItems:"center", gap:8, fontSize:"0.72rem", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", color:"#93C5FD", background:"rgba(15,23,42,0.85)", border:"1px solid rgba(59,130,246,0.4)", borderRadius:100, padding:"0.4rem 1rem", backdropFilter:"blur(12px)", animation:"openToWorkPulse 2.5s ease-in-out infinite" }}
+          onClick={() => scrollToSection("contact")}
+          aria-label="Open contact section"
+          style={{ position:"absolute", top:"5.6rem", right:"6rem", zIndex:120, display:"flex", alignItems:"center", gap:8, fontSize:"0.72rem", fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", color:"#93C5FD", background:"linear-gradient(135deg, rgba(15,23,42,0.92), rgba(15,23,42,0.76))", border:"1px solid rgba(59,130,246,0.45)", borderRadius:100, padding:"0.42rem 1.05rem", backdropFilter:"blur(12px)", animation:"openToWorkPulse 2.5s ease-in-out infinite", boxShadow:"0 0 0 1px rgba(59,130,246,0.15), 0 0 18px rgba(59,130,246,0.28)", cursor:"pointer", willChange:"transform", transform:"translateZ(0)" }}
         >
           <span style={{ width:7, height:7, borderRadius:"50%", background:"#22c55e", display:"inline-block", animation:"heroGlow 2s ease-in-out infinite" }} />
           Open to Work
-        </motion.div>
+        </motion.button>
 
         <div style={{ position:"relative", zIndex:2, width:"100%", maxWidth:1160, margin:"0 auto" }}>
           <div className="h-grid" style={{ display:"grid", gridTemplateColumns:"1.2fr 1fr", gap:"4rem", alignItems:"center" }}>
@@ -328,7 +366,7 @@ export default function Hero() {
                   </svg>
                 </SocIcon>
 
-                <SocIcon href="https://linkedin.com/in/sarthak300" delay={0.4} hoverStyle={{ background:"rgba(10,102,194,0.25)", borderColor:"#0a66c2", boxShadow:"0 0 20px rgba(10,102,194,0.3)", color:"#fff" }}>
+                <SocIcon href="https://www.linkedin.com/in/sarthak300/" delay={0.4} hoverStyle={{ background:"rgba(10,102,194,0.25)", borderColor:"#0a66c2", boxShadow:"0 0 20px rgba(10,102,194,0.3)", color:"#fff" }}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
                     <rect x="2" y="9" width="4" height="12"/>
@@ -412,7 +450,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity:0 }} animate={{ opacity:1 }}
           transition={{ delay:1.5, duration:0.8 }}
-          onClick={() => document.getElementById("about").scrollIntoView({ behavior:"smooth" })}
+          onClick={() => scrollToSection("about")}
           style={{ position:"absolute", bottom:"2rem", left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:6, cursor:"pointer", zIndex:5 }}
         >
           <span style={{ fontSize:"0.68rem", fontWeight:600, letterSpacing:"3px", textTransform:"uppercase", color:"#64748B" }}>Scroll</span>

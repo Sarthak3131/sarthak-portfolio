@@ -1,37 +1,46 @@
-import { useState, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import certificates from "../data/certificates";
 
 /* ── CERTIFICATE MODAL ─────────────────────────────────────── */
 function CertModal({ cert, onClose }) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, []);
+
   const modalContent = (
     <AnimatePresence>
       <motion.div
         initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
         onClick={onClose}
-        style={{ position:"fixed", inset:0, zIndex:9999, background:"rgba(0,0,0,0.80)", backdropFilter:"blur(14px)", display:"flex", alignItems:"center", justifyContent:"center", padding:"5rem 2rem 2rem" }}
+        style={{ position:"fixed", inset:0, zIndex:9999, background:"rgba(0,0,0,0.80)", backdropFilter:"blur(14px)", display:"flex", alignItems:"center", justifyContent:"center", padding:"2rem" }}
       >
         <motion.div
           initial={{ scale:0.85, opacity:0 }} animate={{ scale:1, opacity:1 }} exit={{ scale:0.85, opacity:0 }}
           transition={{ type:"spring", damping:25, stiffness:300 }}
           onClick={e => e.stopPropagation()}
-          style={{ background:"rgba(15,23,42,0.98)", backdropFilter:"blur(30px)", border:`1px solid ${cert.accentBorder}`, borderRadius:28, maxWidth:700, width:"100%", maxHeight:"90vh", overflowY:"auto", padding:"2rem", boxShadow:`0 40px 80px rgba(0,0,0,0.6), 0 0 40px ${cert.accentBg}`, position:"relative" }}
+          style={{ background:"rgba(15,23,42,0.98)", backdropFilter:"blur(30px)", border:`1px solid ${cert.accentBorder}`, borderRadius:28, maxWidth:700, width:"100%", maxHeight:"90vh", overflowY:"auto", padding:"1.25rem 2rem 2rem", boxShadow:`0 40px 80px rgba(0,0,0,0.6), 0 0 40px ${cert.accentBg}`, position:"relative", WebkitOverflowScrolling:"touch", scrollBehavior:"smooth" }}
         >
           {/* Close */}
           <button onClick={onClose}
-            style={{ position:"absolute", top:"1rem", right:"1rem", background:"rgba(59,130,246,0.1)", border:"1px solid rgba(59,130,246,0.2)", width:32, height:32, borderRadius:8, cursor:"pointer", color:"#94A3B8", fontWeight:700, fontSize:"1rem", display:"flex", alignItems:"center", justifyContent:"center" }}
+            style={{ position:"absolute", top:"1rem", right:"1rem", background:"rgba(59,130,246,0.1)", border:"1px solid rgba(59,130,246,0.2)", width:32, height:32, borderRadius:8, cursor:"pointer", color:"#94A3B8", fontWeight:700, fontSize:"1rem", lineHeight:1, padding:0, display:"flex", alignItems:"center", justifyContent:"center" }}
             onMouseEnter={e => { e.currentTarget.style.background="rgba(59,130,246,0.2)"; e.currentTarget.style.color="#F1F5F9"; }}
             onMouseLeave={e => { e.currentTarget.style.background="rgba(59,130,246,0.1)"; e.currentTarget.style.color="#94A3B8"; }}
           >✕</button>
 
           {/* Certificate image */}
-          <div style={{ width:"100%", borderRadius:16, overflow:"hidden", marginBottom:"1.5rem", border:`1px solid ${cert.accentBorder}`, boxShadow:`0 0 30px ${cert.accentBg}` }}>
+          <div style={{ width:"100%", borderRadius:16, overflow:"hidden", marginBottom:"1.5rem", border:`1px solid ${cert.accentBorder}`, boxShadow:`0 0 30px ${cert.accentBg}`, maxHeight:"52vh" }}>
             <img
               src={cert.image}
               alt={cert.title}
               loading="lazy"
-              style={{ width:"100%", display:"block", objectFit:"cover" }}
+              style={{ width:"100%", maxHeight:"52vh", display:"block", objectFit:"contain" }}
             />
           </div>
 
@@ -72,7 +81,15 @@ const CertCard = memo(function CertCard({ cert, onClick }) {
       viewport={{ once:true, margin:"-60px" }}
       whileHover={{ y:-8 }}
       onClick={onClick}
-      style={{ overflow:"hidden", cursor:"pointer", position:"relative" }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      style={{ overflow:"hidden", cursor:"pointer", position:"relative", willChange:"transform", transform:"translateZ(0)" }}
     >
       {/* Accent top bar */}
       <div style={{ height:3, background:`linear-gradient(90deg,${cert.accent},transparent)`, borderRadius:"22px 22px 0 0" }} />
@@ -82,6 +99,8 @@ const CertCard = memo(function CertCard({ cert, onClick }) {
         <img
           src={cert.image}
           alt={cert.title}
+          loading="lazy"
+          decoding="async"
           style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"top", opacity:0.9, transition:"transform 0.4s ease" }}
           onMouseEnter={e => e.currentTarget.style.transform="scale(1.04)"}
           onMouseLeave={e => e.currentTarget.style.transform="scale(1)"}

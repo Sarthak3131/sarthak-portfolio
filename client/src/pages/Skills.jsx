@@ -14,7 +14,7 @@ const LOGOS = {
   "MongoDB":        '<svg viewBox="0 0 24 24" fill="none"><path d="M12 2c-1 4-4 6-4 10a4 4 0 008 0c0-4-3-6-4-10z" fill="#47A248" opacity="0.8"/><path d="M12 2v20" stroke="#47A248" stroke-width="1.5" stroke-linecap="round"/></svg>',
   "SQLAlchemy":     '<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="7" rx="8" ry="3" stroke="#94A3B8" stroke-width="1.2"/><path d="M4 7v5c0 1.66 3.58 3 8 3s8-1.34 8-3V7" stroke="#94A3B8" stroke-width="1.2"/><path d="M4 12v5c0 1.66 3.58 3 8 3s8-1.34 8-3v-5" stroke="#94A3B8" stroke-width="1.2"/><path d="M16 15l2 2-2 2M8 15l-2 2 2 2" stroke="#60A5FA" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
   "PostgreSQL":     '<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="7" rx="8" ry="3.5" fill="#336791" opacity="0.2" stroke="#336791" stroke-width="1.2"/><path d="M4 7v10c0 2 3.6 3.5 8 3.5s8-1.5 8-3.5V7" stroke="#336791" stroke-width="1.2"/><path d="M4 12c0 2 3.6 3.5 8 3.5s8-1.5 8-3.5" stroke="#336791" stroke-width="1.2"/><circle cx="16" cy="6" r="2" fill="#336791" opacity="0.5"/></svg>',
-  "Redis":          '<svg viewBox="0 0 24 24" fill="none"><path d="M3 14l9-4 9 4-9 4-9-4z" fill="#DC382D" opacity="0.8"/><path d="M3 10l9-4 9 4-9 4-9-4z" fill="#DC382D" opacity="0.5"/><path d="M3 6l9-4 9 4-9 4-9-4z" fill="#DC382D" opacity="0.3"/></svg>',
+  "Mongoose":          '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5h2.9L12 12.1 17.1 5H20v14h-2.5V9.4L12 17.1 6.5 9.4V19H4z" fill="#B23121"/><path d="M4 19h16" stroke="#B23121" stroke-width="1" stroke-linecap="round" opacity="0.35"/></svg>',
   "Git / GitHub":   '<svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="6" r="2" stroke="#F05032" stroke-width="1.5"/><circle cx="6" cy="18" r="2" stroke="#F05032" stroke-width="1.5"/><circle cx="18" cy="6" r="2" stroke="#F05032" stroke-width="1.5"/><path d="M8 6h6a2 2 0 012 2v2M6 8v8" stroke="#F05032" stroke-width="1.5" stroke-linecap="round"/></svg>',
   "GitHub Actions": '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#2088FF" stroke-width="1.2"/><path d="M12 8v4l3 3" stroke="#2088FF" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#2088FF" opacity="0.3"/></svg>',
   "VS Code":        '<svg viewBox="0 0 24 24" fill="none"><path d="M17 3L8 12l-5-4-1 1 6 9 11-14-2-1z" fill="#007ACC" opacity="0.9"/></svg>',
@@ -60,7 +60,7 @@ const CATS = [
       { n: "MongoDB",      p: 80 },
       { n: "PostgreSQL",   p: 68 },
       { n: "SQLAlchemy",   p: 70 },
-      { n: "Redis",        p: 60 },
+      { n: "Mongoose",     p: 70 },
     ],
   },
   {

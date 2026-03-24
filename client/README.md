@@ -44,7 +44,6 @@ client/
 │   │   └── Footer.jsx
 │   ├── data/
 │   │   ├── projects.js
-│   │   ├── skills.js
 │   │   ├── certificates.js
 │   │   ├── education.js
 │   │   └── experience.js
@@ -124,7 +123,7 @@ Edit `src/data/projects.js` to add new projects:
 
 ### Updating Skills
 
-Modify `src/data/skills.js` to update your skills and proficiency levels.
+Modify the skills content in `src/pages/Skills.jsx`.
 
 ### Personal Information
 
