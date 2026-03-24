@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { GitHubCalendar } from "react-github-calendar";
+import { useState } from "react";
 
 export default function GithubStats() {
+  const [imageErrors, setImageErrors] = useState({});
+
   const container = {
     hidden: {},
     show: { transition: { staggerChildren:0.14, delayChildren:0.1 } },
@@ -9,6 +12,10 @@ export default function GithubStats() {
   const item = {
     hidden: { opacity:0, y:24 },
     show:   { opacity:1, y:0, transition:{ duration:0.5, ease:"easeOut" } },
+  };
+
+  const handleImageError = (key) => {
+    setImageErrors(prev => ({ ...prev, [key]: true }));
   };
 
   return (
@@ -53,18 +60,63 @@ export default function GithubStats() {
           style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:"2rem" }}
         >
           {/* GitHub Stats */}
-          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true" alt="GitHub Stats" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
+          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden", minHeight:"250px" }}>
+            {imageErrors.stats ? (
+              <div style={{ textAlign:"center", color:"#94A3B8" }}>
+                <p style={{ fontSize:"0.9rem", marginBottom:"0.5rem" }}>📊 GitHub Stats</p>
+                <p style={{ fontSize:"0.75rem", color:"#64748B" }}>Visit GitHub to see full stats</p>
+              </div>
+            ) : (
+              <img 
+                src={`https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true&cache_seconds=0&timestamp=${Date.now()}`}
+                alt="GitHub Stats"
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                onError={() => handleImageError("stats")}
+                style={{ width: "100%", maxWidth: "400px" }}
+              />
+            )}
           </motion.article>
 
           {/* Top Languages */}
-          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true" alt="Top Languages" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
+          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden", minHeight:"250px" }}>
+            {imageErrors.langs ? (
+              <div style={{ textAlign:"center", color:"#94A3B8" }}>
+                <p style={{ fontSize:"0.9rem", marginBottom:"0.5rem" }}>💻 Top Languages</p>
+                <p style={{ fontSize:"0.75rem", color:"#64748B" }}>Visit GitHub to see language stats</p>
+              </div>
+            ) : (
+              <img 
+                src={`https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true&cache_seconds=0&timestamp=${Date.now()}`}
+                alt="Top Languages"
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                onError={() => handleImageError("langs")}
+                style={{ width: "100%", maxWidth: "400px" }}
+              />
+            )}
           </motion.article>
 
           {/* GitHub Streak */}
-          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden" }}>
-            <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D" alt="GitHub Streak" loading="lazy" decoding="async" referrerPolicy="no-referrer" style={{ width: "100%", maxWidth: "400px" }} />
+          <motion.article variants={item} whileHover={{ y:-8 }} className="g-card" style={{ padding:"1.5rem", display:"flex", justifyContent:"center", alignItems:"center", overflow:"hidden", minHeight:"250px" }}>
+            {imageErrors.streak ? (
+              <div style={{ textAlign:"center", color:"#94A3B8" }}>
+                <p style={{ fontSize:"0.9rem", marginBottom:"0.5rem" }}>🔥 Contribution Streak</p>
+                <p style={{ fontSize:"0.75rem", color:"#64748B" }}>Visit GitHub to see streak stats</p>
+              </div>
+            ) : (
+              <img 
+                src={`https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D&timestamp=${Date.now()}`}
+                alt="GitHub Streak"
+                loading="lazy"
+                decoding="async"
+                referrerPolicy="no-referrer"
+                onError={() => handleImageError("streak")}
+                style={{ width: "100%", maxWidth: "400px" }}
+              />
+            )}
           </motion.article>
         </motion.div>
       </div>
