@@ -226,18 +226,15 @@ The portfolio is fully responsive with breakpoints:
 - [ ] Add analytics tracking
 - [ ] Implement contact form email notifications
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 👨‍💻 Author
 
 **Sarthak Srivastava**
 - Full Stack Developer
-- Portfolio: [Live Demo](http://localhost:5173)
-- LinkedIn: [Your LinkedIn Profile]
-- GitHub: [Your GitHub Profile]
-- Email: [your.email@example.com]
+- Portfolio: https://sarthaksrivastava.netlify.app/
+- LinkedIn: https://www.linkedin.com/in/sarthak300/
+- GitHub: https://github.com/Sarthak3131/
+- Email: sarthaksrivastava189@gmail.com
 
 ---
 
