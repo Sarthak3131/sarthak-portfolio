@@ -4,8 +4,8 @@ import { useRef, useEffect, useState } from "react";
 const ITEMS = [
   { label:"Problems Solved",    value:250, suffix:"+" },
   { label:"HackerRank Stars",   value:5,   suffix:"★" },
-  { label:"Projects Completed", value:3,   suffix:"+" },
-  { label:"Certifications",     value:4,   suffix:"+" },
+  { label:"Projects Completed", value:5,   suffix:"+" },
+  { label:"Certifications",     value:10,   suffix:"+" },
 ];
 
 function Counter({ value, suffix, label, delay = 0 }) {
