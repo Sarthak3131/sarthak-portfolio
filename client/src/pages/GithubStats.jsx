@@ -68,7 +68,7 @@ export default function GithubStats() {
               </div>
             ) : (
               <img 
-                src={`https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true&cache_seconds=0&timestamp=${Date.now()}`}
+                src="https://github-readme-stats.vercel.app/api?username=Sarthak3131&show_icons=true&theme=transparent&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&hide_border=true&cache_seconds=0"
                 alt="GitHub Stats"
                 loading="lazy"
                 decoding="async"
@@ -88,7 +88,7 @@ export default function GithubStats() {
               </div>
             ) : (
               <img 
-                src={`https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true&cache_seconds=0&timestamp=${Date.now()}`}
+                src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sarthak3131&layout=compact&theme=transparent&title_color=60A5FA&text_color=94A3B8&hide_border=true&cache_seconds=0"
                 alt="Top Languages"
                 loading="lazy"
                 decoding="async"
@@ -108,7 +108,7 @@ export default function GithubStats() {
               </div>
             ) : (
               <img 
-                src={`https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D&timestamp=${Date.now()}`}
+                src="https://github-readme-streak-stats.herokuapp.com/?user=Sarthak3131&theme=transparent&hide_border=true&title_color=60A5FA&text_color=94A3B8&icon_color=3B82F6&date_format=j%20M%5B%20Y%5D"
                 alt="GitHub Streak"
                 loading="lazy"
                 decoding="async"

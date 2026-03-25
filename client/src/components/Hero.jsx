@@ -121,7 +121,7 @@ const CODE_LINES = [
   { ln:"2",  parts:[{t:"pl",v:"  name: "},{t:"str",v:'"Sarthak Srivastava"'},{t:"pl",v:","}] },
   { ln:"3",  parts:[{t:"pl",v:"  role: "},{t:"str",v:'"Full Stack Dev"'},{t:"pl",v:","}] },
   { ln:"4",  parts:[{t:"pl",v:"  stack: ["},{t:"str",v:'"React"'},{t:"pl",v:", "},{t:"str",v:'"Node"'},{t:"pl",v:", "},{t:"str",v:'"MongoDB"'},{t:"pl",v:"],"}] },
-  { ln:"5",  parts:[{t:"pl",v:"  cgpa: "},{t:"val",v:"6.96"},{t:"pl",v:","}] },
+  { ln:"5",  parts:[{t:"pl",v:"  focus: "},{t:"str",v:'"Scalable Web Apps"'},{t:"pl",v:","}] },
   { ln:"6",  parts:[{t:"pl",v:"  problems: "},{t:"val",v:"250"},{t:"str",v:"+"},{t:"pl",v:","}] },
   { ln:"7",  parts:[{t:"pl",v:"  available: "},{t:"kw",v:"true"},{t:"pl",v:" "},{t:"cm",v:"// hire me!"}] },
   { ln:"8",  parts:[{t:"pl",v:"};"}] },
